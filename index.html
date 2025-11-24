@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <title>Minecraft Advancement Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <header class="main-header">
+            <div class="header-title">
+                <h1 id="main-title">マインクラフト進捗トラッカー</h1>
+                <span id="sub-title" class="subtitle">Minecraft Advancement Tracker</span>
+            </div>
+            <div class="controls">
+                <select id="language-selector">
+                    <option value="ja_jp">日本語</option>
+                    <option value="en_us">English</option>
+                </select>
+            </div>
+        </header>
+
+        <main>
+            <section id="upload-zone" class="upload-zone">
+                <div class="upload-content">
+                    <div class="icon">📂</div>
+                    <h2 id="upload-title">advancements.json をアップロード</h2>
+                    <p id="upload-desc">ここにファイルをドラッグ＆ドロップ、またはクリックして選択</p>
+                    <input type="file" id="file-input" accept=".json" hidden>
+
+                    <div class="file-help">
+                        <p class="help-label">📁 ファイルの場所 (File Location):</p>
+                        <div class="help-paths">
+                            <div class="path-item">
+                                <span class="os-icon">🪟</span> <strong>Windows:</strong>
+                                <code>%appdata%\.minecraft\saves\&lt;World&gt;\advancements</code>
+                            </div>
+                            <div class="path-item">
+                                <span class="os-icon">🍎</span> <strong>Mac:</strong>
+                                <code>~/Library/Application Support/minecraft/saves/&lt;World&gt;/advancements</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dashboard" class="dashboard hidden">
+                <div class="dashboard-header">
+                    <div class="stats-bar">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Progress</span>
+                            <span class="stat-value" id="total-progress">0%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Completed</span>
+                            <span class="stat-value" id="completed-count">0 / 0</span>
+                        </div>
+                    </div>
+
+                    <div class="filter-controls">
+                        <button class="filter-btn active" data-filter="all">すべて</button>
+                        <button class="filter-btn" data-filter="completed">達成済み</button>
+                        <button class="filter-btn" data-filter="incomplete">未達成</button>
+                    </div>
+                </div>
+
+                <nav class="category-nav">
+                    <!-- Categories will be injected here -->
+                    <button class="category-btn active" data-category="story">Minecraft</button>
+                    <button class="category-btn" data-category="nether">Nether</button>
+                    <button class="category-btn" data-category="end">The End</button>
+                    <button class="category-btn" data-category="adventure">Adventure</button>
+                    <button class="category-btn" data-category="husbandry">Husbandry</button>
+                </nav>
+
+                <div id="advancements-list" class="advancements-grid">
+                    <!-- Advancements will be injected here -->
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p id="donation-desc" class="donation-description">
+                あなたの「あと一歩」を応援する個人開発ツールです。<br>
+                気に入っていただけたら、開発の燃料（エナドリ）を差し入れしてもらえると嬉しいです！
+            </p>
+            <a href="https://www.amazon.jp/hz/wishlist/ls/C6AOCLSFH5V0?ref_=wl_share" id="donation-link" target="_blank"
+                rel="noopener noreferrer" class="donation-button">
+                🎁 <span id="donation-text">開発者にエナジードリンクを贈る</span>
+            </a>
+            <div id="developer-credit" class="developer-credit">
+                Developed by リスタのスマートインベントリ
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
