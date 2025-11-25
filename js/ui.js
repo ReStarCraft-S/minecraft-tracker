@@ -102,8 +102,8 @@ export class UI {
             'upload_desc': { en_us: 'Drag & drop your file here or click to select', ja_jp: 'ここにファイルをドラッグ＆ドロップ、またはクリックして選択' },
             'donation_text': { en_us: 'Gift an Energy Drink to the Developer', ja_jp: '開発者にエナジードリンクを贈る' },
             'donation_desc': {
-                en_us: "A solo-developed tool to support your 'one more step'.<br>If you like it, please fuel the development with an energy drink!",
-                ja_jp: 'あなたの「あと一歩」を応援する個人開発ツールです。<br>気に入っていただけたら、開発の燃料（エナドリ）を差し入れしてもらえると嬉しいです！'
+                en_us: "A solo-developed tool to support your 'one more step'.<br>If you like it, please fuel the development with an energy drink!<br><span class='email-note'>(Amazon Gift Card Email: restarcraft.s@gmail.com)</span>",
+                ja_jp: 'あなたの「あと一歩」を応援する個人開発ツールです。<br>気に入っていただけたら、開発の燃料（エナドリ）を差し入れしてもらえると嬉しいです！<br><span class="email-note">(Amazonギフト券の宛先: restarcraft.s@gmail.com)</span>'
             },
             'developer_credit': { en_us: "Developed by Resta's Smart Inventory", ja_jp: 'Developed by リスタのスマートインベントリ' }
         };

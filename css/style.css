@@ -344,6 +344,14 @@ main {
     line-height: 1.6;
 }
 
+.email-note {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8em;
+    opacity: 0.8;
+    font-family: monospace;
+}
+
 .donation-button {
     display: inline-flex;
     align-items: center;
