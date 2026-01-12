@@ -69,10 +69,16 @@ body {
 }
 
 .app-logo {
-    max-height: 80px;
+    max-height: 120px;
     width: auto;
     max-width: 100%;
     object-fit: contain;
+}
+
+.path-icon {
+    color: #4cd964;
+    /* Logo Green */
+    margin-right: 0.5rem;
 }
 
 /* Removed old title styles as they are replaced by logo */
@@ -119,6 +125,16 @@ main {
     margin-bottom: 0.5rem;
     font-weight: 600;
     color: var(--text-primary);
+}
+
+.help-method {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem;
+    border-radius: 4px;
+    text-align: center;
 }
 
 .help-paths {
