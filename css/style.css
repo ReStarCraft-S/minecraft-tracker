@@ -63,14 +63,20 @@ body {
 
 .header-title {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
-.subtitle {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    font-weight: 500;
+.app-logo {
+    max-height: 80px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
 }
+
+/* Removed old title styles as they are replaced by logo */
+/* .header-title h1, .subtitle ... */
 
 .controls select {
     background-color: var(--card-bg);
