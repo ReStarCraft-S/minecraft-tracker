@@ -354,6 +354,31 @@ export class UI {
             'minecraft:cold': '冷帯種'
         };
 
+        // Armor Trim Translations (Scoped to trim advancements)
+        const trimTranslations = {
+            'bolt': '稲妻風',
+            'coast': '海岸風',
+            'dune': '砂丘風',
+            'eye': '目玉風',
+            'flow': '氷流風',
+            'host': '宿主風',
+            'raiser': '召喚師風',
+            'rib': '尖塔風',
+            'sentry': '番兵風',
+            'shaper': 'シェーパー風',
+            'silence': '静寂風',
+            'snout': 'ブタの鼻風',
+            'spire': '先駆者風',
+            'tide': '潮流風',
+            'vex': 'ヴェックス風',
+            'ward': '監獄風',
+            'wayfinder': '先導者風',
+            'wild': 'あばら模様風',
+        };
+        const isTrimAdv = (id === 'minecraft:adventure/trim_with_all_exclusive_armor_patterns' ||
+                           id === 'minecraft:adventure/smithing_with_style' ||
+                           id === 'minecraft:adventure/craft_new_diamond_gear');
+
         // Wolf Translations (Scoped to One Team)
         const wolfTranslations = {
             'minecraft:wolf': '灰色のオオカミ', // Default
@@ -386,6 +411,18 @@ export class UI {
                 // Scoped Wolf Translations
                 else if ((id === 'minecraft:husbandry/whole_pack' || id === 'minecraft:husbandry/leash_all_wolf_variants') && wolfTranslations[cleanKey]) {
                     label = wolfTranslations[cleanKey];
+                }
+
+                // Scoped Armor Trim Translations
+                else if (isTrimAdv) {
+                    // key format: "armor trimmed minecraft:rib armor trim smithing template smithing trim"
+                    // Extract the template name by finding the minecraft: part
+                    const trimMatch = key.match(/minecraft:(\w+)/);
+                    if (trimMatch && trimTranslations[trimMatch[1]]) {
+                        label = `${trimTranslations[trimMatch[1]]}の鎧飾り`;
+                    } else {
+                        label = key.replace(/minecraft:\w+/, m => m.split(':')[1]).replace(/_/g, ' ');
+                    }
                 }
 
                 // 2. Heuristic Translation
