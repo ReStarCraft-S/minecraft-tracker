@@ -49,10 +49,17 @@ export class UI {
             if (file) this.handleFileSelection(file);
         });
 
-        // Language Selector
-        this.elements.languageSelector.addEventListener('change', (e) => {
-            this.app.handleLanguageChange(e.target.value);
-        });
+        // Language Toggle Button
+        const langBtn = document.getElementById('language-toggle');
+        if (langBtn) {
+            langBtn.addEventListener('click', () => {
+                const current = langBtn.dataset.lang || 'ja_jp';
+                const next = current === 'ja_jp' ? 'en_us' : 'ja_jp';
+                langBtn.dataset.lang = next;
+                langBtn.textContent = next === 'ja_jp' ? '🌐 JP / EN' : '🌐 EN / JP';
+                this.app.handleLanguageChange(next);
+            });
+        }
 
         // Category Navigation
         document.querySelectorAll('.category-btn').forEach(btn => {
