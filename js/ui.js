@@ -415,13 +415,14 @@ export class UI {
 
                 // Scoped Armor Trim Translations
                 else if (isTrimAdv) {
-                    // key format: "armor trimmed minecraft:rib armor trim smithing template smithing trim"
-                    // Extract the template name by finding the minecraft: part
+                    // key format: "armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim"
                     const trimMatch = key.match(/minecraft:(\w+)/);
                     if (trimMatch && trimTranslations[trimMatch[1]]) {
                         label = `${trimTranslations[trimMatch[1]]}の鎧飾り`;
+                    } else if (trimMatch) {
+                        label = trimMatch[1].replace(/_/g, ' ');
                     } else {
-                        label = key.replace(/minecraft:\w+/, m => m.split(':')[1]).replace(/_/g, ' ');
+                        label = key.replace(/_/g, ' ');
                     }
                 }
 
