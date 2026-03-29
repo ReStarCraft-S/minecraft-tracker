@@ -376,6 +376,7 @@ export class UI {
             'wild': 'あばら模様風',
         };
         const isTrimAdv = (id === 'minecraft:adventure/trim_with_all_exclusive_armor_patterns' ||
+                           id === 'minecraft:adventure/trim_with_any_armor_pattern' ||
                            id === 'minecraft:adventure/smithing_with_style' ||
                            id === 'minecraft:adventure/craft_new_diamond_gear');
 
@@ -416,7 +417,8 @@ export class UI {
                 // Scoped Armor Trim Translations
                 else if (isTrimAdv) {
                     // key format: "armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim"
-                    const trimMatch = key.match(/minecraft:(\w+)/);
+                    // Need to stop at first underscore after colon to get just "rib"
+                    const trimMatch = key.match(/minecraft:([^_]+)/);
                     if (trimMatch && trimTranslations[trimMatch[1]]) {
                         label = `${trimTranslations[trimMatch[1]]}の鎧飾り`;
                     } else if (trimMatch) {
