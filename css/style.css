@@ -81,7 +81,6 @@ body {
 /* Removed old title styles as they are replaced by logo */
 /* .header-title h1, .subtitle ... */
 
-.controls select {
 .lang-toggle-btn {
     background-color: var(--card-bg);
     color: var(--text-primary);
