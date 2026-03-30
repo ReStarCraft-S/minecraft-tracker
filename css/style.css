@@ -432,16 +432,15 @@ main {
 }
 
 .criteria-item.done::before {
-    content: "✓";
+    content: "○";
     color: var(--success-color);
-}
-
-.criteria-item.missing::before {
-    content: "✗";
-    color: #f87171;
 }
 
 .criteria-item.missing {
     color: var(--text-secondary);
-    background-color: rgba(239, 68, 68, 0.08);
+}
+
+.criteria-item.missing::before {
+    content: "−";
+    color: var(--text-secondary);
 }
