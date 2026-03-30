@@ -439,8 +439,3 @@ main {
 .criteria-item.missing {
     color: var(--text-secondary);
 }
-
-.criteria-item.missing::before {
-    content: "−";
-    color: var(--text-secondary);
-}
