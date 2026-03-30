@@ -82,13 +82,23 @@ body {
 /* .header-title h1, .subtitle ... */
 
 .controls select {
-    background-color: var(--surface-color);
+.lang-toggle-btn {
+    background-color: var(--card-bg);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
     cursor: pointer;
     font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.lang-toggle-btn:hover {
+    background-color: var(--surface-color);
+    transform: scale(1.04);
 }
 
 main {
