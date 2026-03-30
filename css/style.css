@@ -437,6 +437,11 @@ main {
 }
 
 .criteria-item.missing::before {
-    content: "○";
+    content: "✗";
+    color: #f87171;
+}
+
+.criteria-item.missing {
     color: var(--text-secondary);
+    background-color: rgba(239, 68, 68, 0.08);
 }
