@@ -106,6 +106,63 @@ main {
     margin: 0 auto;
 }
 
+/* Demo Mode */
+.demo-mode {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.demo-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.demo-divider::before,
+.demo-divider::after {
+    content: '';
+    flex: 1;
+    border-top: 1px solid var(--border-color);
+}
+
+.demo-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.6rem 1.4rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.demo-btn:hover {
+    border-color: var(--success-color);
+    color: var(--success-color);
+}
+
+.demo-note {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.demo-banner {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success-color);
+    color: var(--success-color);
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
 /* Upload Zone */
 .upload-zone {
     border: 2px dashed var(--border-color);

@@ -61,6 +61,14 @@ export class UI {
             });
         }
 
+        // Demo Mode Button
+        const demoBtn = document.getElementById('demo-btn');
+        if (demoBtn) {
+            demoBtn.addEventListener('click', () => {
+                this.app.handleDemoMode();
+            });
+        }
+
         // Category Navigation
         document.querySelectorAll('.category-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -99,6 +107,22 @@ export class UI {
         this.elements.dashboard.classList.remove('hidden');
         // Set default category if not set
         if (!state.currentCategory) state.currentCategory = 'story';
+
+        // Demo mode banner
+        const existing = document.getElementById('demo-banner');
+        if (existing) existing.remove();
+        if (state.isDemoMode) {
+            const lang = state.currentLanguage || 'ja_jp';
+            const msg = lang === 'ja_jp'
+                ? '📋 デモモード：自分の達成状況は反映されていません'
+                : '📋 Demo Mode: Your own progress is not reflected';
+            const banner = document.createElement('div');
+            banner.id = 'demo-banner';
+            banner.className = 'demo-banner';
+            banner.textContent = msg;
+            this.elements.dashboard.insertBefore(banner, this.elements.dashboard.firstChild);
+        }
+
         this.renderAdvancements(state);
     }
 

@@ -44,6 +44,13 @@ class App {
         this.state.currentLanguage = lang;
         this.ui.updateLanguage(lang);
     }
+
+    handleDemoMode() {
+        // Show all advancements with no user progress (all incomplete)
+        this.state.userProgress = {};
+        this.state.isDemoMode = true;
+        this.ui.showDashboard(this.state);
+    }
 }
 
 const app = new App();
