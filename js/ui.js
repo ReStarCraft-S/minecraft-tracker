@@ -385,27 +385,7 @@ export class UI {
             'minecraft:cold': '冷帯種'
         };
 
-        // Armor Trim Translations (Scoped to trim advancements)
-        const trimTranslations = {
-            'bolt': '稲妻風',
-            'coast': '海岸風',
-            'dune': '砂丘風',
-            'eye': '目玉風',
-            'flow': '氷流風',
-            'host': '宿主風',
-            'raiser': '召喚師風',
-            'rib': '尖塔風',
-            'sentry': '番兵風',
-            'shaper': 'シェーパー風',
-            'silence': '静寂風',
-            'snout': 'ブタの鼻風',
-            'spire': '先駆者風',
-            'tide': '潮流風',
-            'vex': 'ヴェックス風',
-            'ward': '監獄風',
-            'wayfinder': '先導者風',
-            'wild': 'あばら模様風',
-        };
+        // Armor Trim advancements: use game language file directly
         const isTrimAdv = (id === 'minecraft:adventure/trim_with_all_exclusive_armor_patterns' ||
                            id === 'minecraft:adventure/trim_with_any_armor_pattern' ||
                            id === 'minecraft:adventure/smithing_with_style' ||
@@ -445,15 +425,15 @@ export class UI {
                     label = wolfTranslations[cleanKey];
                 }
 
-                // Scoped Armor Trim Translations
+                // Scoped Armor Trim: look up from game language file using .new key
                 else if (isTrimAdv) {
                     // key format: "armor_trimmed_minecraft:rib_armor_trim_smithing_template_smithing_trim"
-                    // Need to stop at first underscore after colon to get just "rib"
                     const trimMatch = key.match(/minecraft:([^_]+)/);
-                    if (trimMatch && trimTranslations[trimMatch[1]]) {
-                        label = `${trimTranslations[trimMatch[1]]}の鎧飾り`;
-                    } else if (trimMatch) {
-                        label = trimMatch[1].replace(/_/g, ' ');
+                    if (trimMatch) {
+                        const pattern = trimMatch[1];
+                        const langKey = `item.minecraft.${pattern}_armor_trim_smithing_template.new`;
+                        const trans = this.app.dataLoader.getTranslation(langKey, lang);
+                        label = (trans !== langKey) ? trans : pattern.replace(/_/g, ' ');
                     } else {
                         label = key.replace(/_/g, ' ');
                     }
@@ -478,10 +458,25 @@ export class UI {
                     else label = label.replace(/_/g, ' ');
                 }
             } else {
-                // English: Strip prefix and replace underscores
-                label = cleanKey.replace(/_/g, ' ');
-                // Capitalize first letter of each word
-                label = label.replace(/\b\w/g, l => l.toUpperCase());
+                // English
+                if (isTrimAdv) {
+                    // Use game language file for trim items in English too
+                    const trimMatch = key.match(/minecraft:([^_]+)/);
+                    if (trimMatch) {
+                        const pattern = trimMatch[1];
+                        const langKey = `item.minecraft.${pattern}_armor_trim_smithing_template.new`;
+                        const trans = this.app.dataLoader.getTranslation(langKey, 'en_us');
+                        label = (trans !== langKey) ? trans : pattern.replace(/_/g, ' ');
+                    } else {
+                        label = cleanKey.replace(/_/g, ' ');
+                        label = label.replace(/\b\w/g, l => l.toUpperCase());
+                    }
+                } else {
+                    // Strip prefix and replace underscores
+                    label = cleanKey.replace(/_/g, ' ');
+                    // Capitalize first letter of each word
+                    label = label.replace(/\b\w/g, l => l.toUpperCase());
+                }
             }
 
             // SECURITY: Escape HTML content in criteria
