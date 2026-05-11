@@ -358,8 +358,21 @@ export class UI {
 
         if (!data.criteria) return '';
 
-        const criteriaKeys = Object.keys(data.criteria);
+        let criteriaKeys = Object.keys(data.criteria);
         if (criteriaKeys.length <= 1) return '';
+
+        // Sort criteria for "オシャレな鍛冶職人" to match the in-game description order:
+        // 尖塔風、ブタの鼻風、あばら模様、監獄風、静寂、ヴェックス風、潮流風、先駆者風
+        if (id === 'minecraft:adventure/trim_with_all_exclusive_armor_patterns') {
+            const ORDER = ['spire', 'snout', 'rib', 'ward', 'silence', 'vex', 'tide', 'wayfinder'];
+            criteriaKeys.sort((a, b) => {
+                const matchA = a.match(/minecraft:([^_]+)/);
+                const matchB = b.match(/minecraft:([^_]+)/);
+                const iA = matchA ? ORDER.indexOf(matchA[1]) : 99;
+                const iB = matchB ? ORDER.indexOf(matchB[1]) : 99;
+                return iA - iB;
+            });
+        }
 
         let html = '<div class="criteria-list">';
         const doneCriteria = userAdv && userAdv.criteria ? Object.keys(userAdv.criteria) : [];
