@@ -1,0 +1,63 @@
+name: Update Minecraft Data
+
+on:
+  # Manual trigger
+  workflow_dispatch:
+  
+  # Run weekly on Monday at 9:00 AM JST (0:00 UTC)
+  schedule:
+    - cron: '0 0 * * 1'
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download latest advancement data
+        run: python3 download_advancements.py
+
+      - name: Download latest language files
+        run: |
+          curl -s -o data/en_us.json "https://raw.githubusercontent.com/misode/mcmeta/assets/assets/minecraft/lang/en_us.json"
+          curl -s -o data/ja_jp.json "https://raw.githubusercontent.com/misode/mcmeta/assets/assets/minecraft/lang/ja_jp.json"
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --stat
+          if git diff --quiet data/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No changes detected."
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected!"
+            # Show a summary of what changed
+            python3 -c "
+          import json
+          d = json.load(open('data/advancements.json'))
+          adv = d.get('minecraft:adventure/adventuring_time', {})
+          c = adv.get('criteria', {})
+          print(f'Adventuring Time biomes: {len(c)}')
+          print(f'Total advancements: {len(d)}')
+          "
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/
+          git commit -m "🔄 Auto-update: Minecraft game data ($(date '+%Y-%m-%d'))"
+          git push

@@ -4,37 +4,55 @@ import time
 import os
 import sys
 
+def get_advancement_list():
+    """Get list of advancement files from GitHub API (misode/mcmeta data branch)."""
+    print("Fetching advancement list from GitHub API...")
+    
+    # Step 1: Get the latest commit SHA for the 'data' branch
+    branch_url = "https://api.github.com/repos/misode/mcmeta/branches/data"
+    req = urllib.request.Request(branch_url, headers={"Accept": "application/vnd.github+json", "User-Agent": "MinecraftTracker"})
+    with urllib.request.urlopen(req) as response:
+        branch_data = json.loads(response.read().decode())
+        commit_sha = branch_data["commit"]["sha"]
+    
+    print(f"Latest commit SHA: {commit_sha}")
+    
+    # Step 2: Get the tree for the advancement directory
+    tree_url = f"https://api.github.com/repos/misode/mcmeta/git/trees/{commit_sha}?recursive=1"
+    req = urllib.request.Request(tree_url, headers={"Accept": "application/vnd.github+json", "User-Agent": "MinecraftTracker"})
+    with urllib.request.urlopen(req) as response:
+        tree_data = json.loads(response.read().decode())
+    
+    # Filter for advancement files (exclude recipes)
+    advancement_ids = []
+    prefix = "data/minecraft/advancement/"
+    for item in tree_data.get("tree", []):
+        path = item.get("path", "")
+        if path.startswith(prefix) and path.endswith(".json") and "recipes/" not in path:
+            # Extract the advancement ID (remove prefix and .json suffix)
+            adv_id = path[len(prefix):-5]  # e.g., "adventure/adventuring_time"
+            advancement_ids.append(adv_id)
+    
+    print(f"Found {len(advancement_ids)} advancements (excluding recipes).")
+    return advancement_ids
+
 def download_data():
-    print("Loading registries.json...")
-    try:
-        with open('data/registries.json', 'r') as f:
-            registries = json.load(f)
-    except Exception as e:
-        print(f"Error loading registries.json: {e}")
-        return
-
-    advancement_ids = registries.get('advancement', [])
+    advancement_ids = get_advancement_list()
+    
     if not advancement_ids:
-        # Fallback if structure is different (e.g. if it's a list of strings directly?)
-        # Based on previous cat, it seemed to be under "advancement" key.
-        print("No advancements found in registries.json")
+        print("No advancements found!")
         return
-
-    print(f"Found {len(advancement_ids)} advancements.")
     
     advancements = {}
     count = 0
     
     for adv_id in advancement_ids:
-        # Filter recipes
-        if 'recipes/' in adv_id:
-            continue
-            
         url = f"https://raw.githubusercontent.com/misode/mcmeta/data/data/minecraft/advancement/{adv_id}.json"
         print(f"Downloading {adv_id}...")
         
         try:
-            with urllib.request.urlopen(url) as response:
+            req = urllib.request.Request(url, headers={"User-Agent": "MinecraftTracker"})
+            with urllib.request.urlopen(req) as response:
                 if response.status == 200:
                     data = json.loads(response.read().decode())
                     advancements[f"minecraft:{adv_id}"] = data
